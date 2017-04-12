@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(formViewContact));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonApplyFilter = new System.Windows.Forms.ToolStripButton();
@@ -60,8 +61,10 @@
             this.textBoxEmail = new System.Windows.Forms.TextBox();
             this.textBoxWebsite = new System.Windows.Forms.TextBox();
             this.textBoxTelefonnummer = new System.Windows.Forms.TextBox();
+            this.bindingSourcePerson = new System.Windows.Forms.BindingSource(this.components);
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewContacts)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourcePerson)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -93,6 +96,7 @@
             this.toolStripButtonRefresh.Name = "toolStripButtonRefresh";
             this.toolStripButtonRefresh.Size = new System.Drawing.Size(24, 24);
             this.toolStripButtonRefresh.Text = "Aktualisieren";
+            this.toolStripButtonRefresh.Click += new System.EventHandler(this.toolStripButtonRefresh_Click);
             // 
             // dataGridViewContacts
             // 
@@ -114,6 +118,7 @@
             this.buttonEdit.TabIndex = 2;
             this.buttonEdit.Text = "Editieren";
             this.buttonEdit.UseVisualStyleBackColor = true;
+            this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
             // 
             // textBoxTitel
             // 
@@ -390,9 +395,11 @@
             this.Controls.Add(this.toolStrip1);
             this.Name = "formViewContact";
             this.Text = "Adressbuch";
+            this.Load += new System.EventHandler(this.formViewContact_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewContacts)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourcePerson)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -431,6 +438,7 @@
         private System.Windows.Forms.TextBox textBoxEmail;
         private System.Windows.Forms.TextBox textBoxWebsite;
         private System.Windows.Forms.TextBox textBoxTelefonnummer;
+        private System.Windows.Forms.BindingSource bindingSourcePerson;
     }
 }
 

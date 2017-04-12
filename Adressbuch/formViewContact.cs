@@ -10,6 +10,9 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using MySql.Data;
 
+// ## > search for this pattern to find comments for features, which might be build in in later versions
+// #DEBUG > search for this pattern to find lines, which should be removed after debugging
+
 namespace Adressbuch
 {
     public partial class formViewContact : Form
@@ -18,5 +21,75 @@ namespace Adressbuch
         {
             InitializeComponent();
         }
+
+        // Show editing dialog when clicking "Editieren"
+        private void buttonEdit_Click(object sender, EventArgs e)
+        {
+            formEditContact showFormEditContact = new formEditContact();
+            showFormEditContact.ShowDialog();
+        }//
+
+        // Connect to DB, create adapter, fill DataSet, fill DataGridView
+        private void formViewContact_Load(object sender, EventArgs e)
+        {   // vars
+            string dbConnString = "";
+            MySqlConnection dbConn = new MySqlConnection();
+            MySqlDataAdapter adapterPerson = new MySqlDataAdapter();
+            DataView view = new DataView();
+
+
+            // Establish connection to db
+            try
+            {
+                dbConnString = @"SERVER=localhost;DATABASE=adressbuch;UID=root;"; // ## Could be changed via preferences in later versions
+                dbConn = new MySqlConnection(dbConnString);
+                dbConn.Open();
+            }
+            catch (Exception ex)
+            {
+                string title = "Fehlermeldung:";
+                MessageBox.Show(ex.Message, title);
+            }
+            try
+            {
+                // Select desired coloumns
+                string sqlAdapterPerson = @"SELECT `PersonID`, `Anrede`, `Vorname`, `Nachname`, 
+                                            `Strasse`, `Hausnummer`, `PLZ`, `Ort`,
+                                            `Land`, `Telefonnummer`, `Mobilnnummer`, `Mail`,
+                                            `Webseite`, `Geburtstag` FROM `person`";
+                adapterPerson = new MySqlDataAdapter(sqlAdapterPerson, dbConn);
+                
+            }
+            catch (Exception ex)
+            {
+                string title = "Fehlermeldung:";
+                MessageBox.Show(ex.Message, title);
+            }
+
+            // Create DataSet and Fill it using the adapters
+            try
+            {
+                DataSet dataSetPerson = new DataSet();
+                adapterPerson.Fill(dataSetPerson, "person");
+                view = dataSetPerson.Tables["person"].DefaultView;
+            }
+            catch (Exception ex)
+            {
+                string title = "Fehlermeldung:";
+                MessageBox.Show(ex.Message, title);
+            }
+
+            // Fill informations into the DataGridView
+            dataGridViewContacts.DataSource = view;
+            dbConn.Close();
+        }//
+
+        // Refresh DataGridView using "Aktualisieren"
+        private void toolStripButtonRefresh_Click(object sender, EventArgs e)
+        {
+            // Implementing method to call formViewContact_Load 
+            //or make formViewContact_Load call a method that contains
+            //current code of formViewContact_Load
+        }//
     }
 }
