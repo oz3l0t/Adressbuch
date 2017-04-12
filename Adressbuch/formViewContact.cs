@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
+using MySql.Data;
 
 namespace Adressbuch
 {
-    public partial class Form1 : Form
+    public partial class formViewContact : Form
     {
-        public Form1()
+        public formViewContact()
         {
             InitializeComponent();
         }
