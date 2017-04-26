@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 /*
         Adressbuch - Ein einfaches Tool zum erfassen und verwalten von Adressdaten.
@@ -15,6 +16,37 @@ using System.Windows.Forms;
 // #DEBUG > search for this pattern to find lines, which should be removed after debugging
 namespace Adressbuch
 {
+    public class dbConnection
+    {
+        private string dbConnString;
+        public MySqlConnection dbConn = new MySqlConnection();
+        private bool FDbConn = false;
+
+        public void InitDbConn()
+        {
+            if (FDbConn == false)
+            {
+                try
+                {
+                    dbConnString = @"SERVER=localhost;DATABASE=adressbuch;UID=root;";
+                    dbConn = new MySqlConnection(dbConnString);
+                    dbConn.Open();
+                    FDbConn = true;
+                }
+                catch (Exception ex)
+                {
+                    string title = "Fehlermeldung";
+                    MessageBox.Show(ex.Message, title);
+                }
+            }
+        }
+
+        public void TermDbConn()
+        {
+            dbConn.Close();
+            FDbConn = false;
+        }
+    }
     static class Program
     {
         /// <summary>

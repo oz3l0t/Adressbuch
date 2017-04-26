@@ -20,7 +20,7 @@ namespace Adressbuch
         public formViewContact()
         {
             InitializeComponent();
-        }
+        }//
 
         // Show editing dialog when clicking "Editieren"
         private void buttonEdit_Click(object sender, EventArgs e)
@@ -31,25 +31,12 @@ namespace Adressbuch
 
         // Connect to DB, create adapter, fill DataSet, fill DataGridView
         private void formViewContact_Load(object sender, EventArgs e)
-        {   // vars
-            string dbConnString = "";
-            MySqlConnection dbConn = new MySqlConnection();
-            MySqlDataAdapter adapterPerson = new MySqlDataAdapter();
+        {
+            dbConnection dbConn = new dbConnection();
+            dbConn.InitDbConn();
+            dbConn.TermDbConn();
             DataView view = new DataView();
-
-
-            // Establish connection to db
-            try
-            {
-                dbConnString = @"SERVER=localhost;DATABASE=adressbuch;UID=root;"; // ## Could be changed via preferences in later versions
-                dbConn = new MySqlConnection(dbConnString);
-                dbConn.Open();
-            }
-            catch (Exception ex)
-            {
-                string title = "Fehlermeldung:";
-                MessageBox.Show(ex.Message, title);
-            }
+            MySqlDataAdapter adapterPerson = new MySqlDataAdapter();
             try
             {
                 // Select desired coloumns
@@ -57,7 +44,7 @@ namespace Adressbuch
                                             `Strasse`, `Hausnummer`, `PLZ`, `Ort`,
                                             `Land`, `Telefonnummer`, `Mobilnnummer`, `Mail`,
                                             `Webseite`, `Geburtstag` FROM `person`";
-                adapterPerson = new MySqlDataAdapter(sqlAdapterPerson, dbConn);
+                adapterPerson = new MySqlDataAdapter(sqlAdapterPerson, dbConn.dbConn);
                 
             }
             catch (Exception ex)
@@ -81,7 +68,7 @@ namespace Adressbuch
 
             // Fill informations into the DataGridView
             dataGridViewContacts.DataSource = view;
-            dbConn.Close();
+            dbConn.TermDbConn();
         }//
 
         // Refresh DataGridView using "Aktualisieren"
